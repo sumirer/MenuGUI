@@ -1,0 +1,6 @@
+name: GUIShop
+main: sole.memory.guishop.GUIShop
+version: "1.0.0"
+api: 1.0.0
+load: POSTWORLD
+author: "SoleMemory"
