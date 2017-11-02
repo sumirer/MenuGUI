@@ -30,7 +30,7 @@ public class PlayerOpenShopCommand extends Command{
             commandSender.sendMessage(TextFormat.RED+"请切换模式");
             return true;
         }
-        ((Player) commandSender).showFormWindow(PlayerBuyShop.getAllShopPage());
+        ((Player) commandSender).showFormWindow(PlayerBuyShop.getMainPage());
         return true;
     }
 }

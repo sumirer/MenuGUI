@@ -10,6 +10,7 @@ public class ItemName {
 
 
     public static String getName(String item){
+        if (item==null) return "不存在此物品";
         switch (item){
             case "1":
                 return "石头";

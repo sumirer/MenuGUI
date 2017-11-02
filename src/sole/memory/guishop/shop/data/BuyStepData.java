@@ -4,7 +4,7 @@ package sole.memory.guishop.shop.data;
  * Created by SoleMemory
  * on 2017/11/1.
  */
-public class BuyData {
+public class BuyStepData {
 
     public ShopData data = null;
 

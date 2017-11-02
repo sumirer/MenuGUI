@@ -27,15 +27,14 @@ public class AdminAddItemCommand extends Command {
         if (!commandSender.hasPermission(this.getPermission())){
             commandSender.sendMessage(TextFormat.RED+"你没有权限执行此命令");
         }
-        if (strings.length<2){
+        if (strings.length<1){
             commandSender.sendMessage(TextFormat.RED+"请输入/gshop help 查看帮助");
             return true;
         }
         switch (strings[0]){
             case "add":
-                ((Player) commandSender).showFormWindow(AdminSetShop.getSearchPage());
+                ((Player) commandSender).showFormWindow(AdminSetShop.getMainPage());
                 EventListener.isSetPlayer.put(commandSender.getName(),true);
-                EventListener.setStep.put(commandSender.getName(),new AdminSetShop());
                 break;
             case "del":
                 //TODO: del item command

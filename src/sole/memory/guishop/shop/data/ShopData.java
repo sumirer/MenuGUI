@@ -44,6 +44,7 @@ public class ShopData {
     public HashMap<String,Object> toMap(){
         HashMap<String,Object> map = new HashMap<>();
         map.put("name",name);
+        map.put("id",id);
         map.put("index",index);
         map.put("price",price);
         return map;
