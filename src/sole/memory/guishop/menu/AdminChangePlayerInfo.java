@@ -79,4 +79,8 @@ public class AdminChangePlayerInfo {
     public static FormWindowModal getBanPlayerPage(String player){
         return new FormWindowModal("禁止玩家加入","玩家："+player+" 已经被加入禁止列表！！！！","返回主页","退出");
     }
+
+    public static FormWindowModal getCountErrorPage(String price){
+        return new FormWindowModal("数据错误","输入数据: "+price+" 不正确","重新编辑","取消编辑");
+    }
 }

@@ -176,7 +176,7 @@ public class EventListener extends MenuGUI implements Listener {
                     return;
                 }
                 if (data.countError){
-                    AdminSetShop.getPriceErrorPage(data.money+"");
+                    player.showFormWindow(AdminChangePlayerInfo.getCountErrorPage(data.money+""));
                     AdminData vvb = new AdminData();
                     vvb.inputPlayer(player1);
                     adminData.put(player.getName(), vvb);
