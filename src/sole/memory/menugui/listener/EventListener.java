@@ -5,12 +5,14 @@ import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
+import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.event.player.PlayerFormRespondedEvent;
 import cn.nukkit.form.response.FormResponse;
 import cn.nukkit.form.response.FormResponseCustom;
 import cn.nukkit.form.response.FormResponseModal;
 import cn.nukkit.form.response.FormResponseSimple;
 import cn.nukkit.item.Item;
+import cn.nukkit.lang.TranslationContainer;
 import cn.nukkit.utils.TextFormat;
 import money.Money;
 import sole.memory.menugui.MenuGUI;
@@ -186,9 +188,20 @@ public class EventListener extends MenuGUI implements Listener {
                 if (data.changeMoney) Money.getInstance().setMoney(player1,data.money);
                 if (data.changeMode) player1.setGamemode(AdminData.getMode(data.mode));
                 if (data.changeOp) player1.setOp(data.isOP);
-                if (data.kill) player1.kill();
-                if (data.kick) player1.kick("你被管理员踢出了游戏");
                 if (data.changeHealth) player1.setHealth(data.health);
+                if (data.kick) player1.kick("你被管理员踢出了游戏");
+                if (data.kill) {
+                    EntityDamageEvent ev = new EntityDamageEvent(player1, EntityDamageEvent.DamageCause.SUICIDE, 1000.0F);
+                    player1.getServer().getPluginManager().callEvent(ev);
+                    if(ev.isCancelled()) {
+                        return;
+                    } else {
+                        player1.setLastDamageCause(ev);
+                        player1.setHealth(0.0F);
+                        player1.sendMessage(new TranslationContainer("commands.kill.successful", player1.getName()));
+                        return;
+                    }
+                }
                 if (data.teleport) player.teleport(player1.getLocation());
                 cleanPlayerData(player);
             }
