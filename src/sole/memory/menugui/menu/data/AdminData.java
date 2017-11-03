@@ -1,8 +1,8 @@
-package sole.memory.guishop.menu.data;
+package sole.memory.menugui.menu.data;
 
 import cn.nukkit.Player;
 import money.Money;
-import sole.memory.guishop.utils.StringUtils;
+import sole.memory.menugui.utils.StringUtils;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package sole.memory.guishop.menu.item;
+package sole.memory.menugui.menu.item;
 
 
 

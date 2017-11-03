@@ -1,9 +1,9 @@
-package sole.memory.guishop.utils;
+package sole.memory.menugui.utils;
 
 import cn.nukkit.Player;
 import cn.nukkit.utils.TextFormat;
-import sole.memory.guishop.menu.data.SellData;
-import sole.memory.guishop.menu.data.ShopData;
+import sole.memory.menugui.menu.data.SellData;
+import sole.memory.menugui.menu.data.ShopData;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

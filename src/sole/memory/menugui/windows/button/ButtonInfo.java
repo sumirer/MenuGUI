@@ -1,4 +1,4 @@
-package sole.memory.guishop.windows.button;
+package sole.memory.menugui.windows.button;
 
 import cn.nukkit.form.element.ElementButton;
 import cn.nukkit.form.element.ElementButtonImageData;

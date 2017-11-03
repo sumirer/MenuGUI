@@ -1,5 +1,5 @@
 name: MenuGUI
-main: sole.memory.guishop.MenuGUI
+main: sole.memory.menugui.MenuGUI
 version: "1.0.2"
 api: 1.0.0
 load: POSTWORLD

@@ -1,11 +1,11 @@
-package sole.memory.guishop.command;
+package sole.memory.menugui.command;
 
 import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
-import sole.memory.guishop.listener.EventListener;
-import sole.memory.guishop.menu.AdminSetShop;
+import sole.memory.menugui.listener.EventListener;
+import sole.memory.menugui.menu.AdminSetShop;
 
 /**
  * Created by SoleMemory

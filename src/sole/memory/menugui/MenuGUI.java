@@ -1,12 +1,12 @@
-package sole.memory.guishop;
+package sole.memory.menugui;
 
 import cn.nukkit.Server;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.plugin.PluginBase;
-import sole.memory.guishop.command.AdminAddItemCommand;
-import sole.memory.guishop.command.PlayerOpenShopCommand;
-import sole.memory.guishop.database.ConfigDataBase;
-import sole.memory.guishop.listener.EventListener;
+import sole.memory.menugui.command.AdminAddItemCommand;
+import sole.memory.menugui.command.PlayerOpenShopCommand;
+import sole.memory.menugui.database.ConfigDataBase;
+import sole.memory.menugui.listener.EventListener;
 
 /**
  *

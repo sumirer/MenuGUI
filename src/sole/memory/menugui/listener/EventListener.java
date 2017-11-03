@@ -1,4 +1,4 @@
-package sole.memory.guishop.listener;
+package sole.memory.menugui.listener;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -13,12 +13,12 @@ import cn.nukkit.form.response.FormResponseSimple;
 import cn.nukkit.item.Item;
 import cn.nukkit.utils.TextFormat;
 import money.Money;
-import sole.memory.guishop.MenuGUI;
-import sole.memory.guishop.database.ConfigDataBase;
-import sole.memory.guishop.menu.*;
-import sole.memory.guishop.menu.data.*;
-import sole.memory.guishop.menu.item.ItemName;
-import sole.memory.guishop.utils.StringUtils;
+import sole.memory.menugui.MenuGUI;
+import sole.memory.menugui.database.ConfigDataBase;
+import sole.memory.menugui.menu.*;
+import sole.memory.menugui.menu.data.*;
+import sole.memory.menugui.menu.item.ItemName;
+import sole.memory.menugui.utils.StringUtils;
 
 import java.util.HashMap;
 

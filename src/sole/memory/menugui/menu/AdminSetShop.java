@@ -1,4 +1,4 @@
-package sole.memory.guishop.menu;
+package sole.memory.menugui.menu;
 
 import cn.nukkit.Player;
 import cn.nukkit.form.element.ElementDropdown;
@@ -10,14 +10,14 @@ import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowModal;
 import cn.nukkit.form.window.FormWindowSimple;
 import cn.nukkit.utils.TextFormat;
-import sole.memory.guishop.database.ConfigDataBase;
-import sole.memory.guishop.menu.data.SellData;
-import sole.memory.guishop.menu.data.ShopData;
-import sole.memory.guishop.menu.item.ItemName;
-import sole.memory.guishop.utils.StringUtils;
-import sole.memory.guishop.windows.Custom;
-import sole.memory.guishop.windows.Simple;
-import sole.memory.guishop.windows.button.ButtonInfo;
+import sole.memory.menugui.database.ConfigDataBase;
+import sole.memory.menugui.menu.data.SellData;
+import sole.memory.menugui.menu.data.ShopData;
+import sole.memory.menugui.menu.item.ItemName;
+import sole.memory.menugui.utils.StringUtils;
+import sole.memory.menugui.windows.Custom;
+import sole.memory.menugui.windows.Simple;
+import sole.memory.menugui.windows.button.ButtonInfo;
 
 import java.util.HashMap;
 

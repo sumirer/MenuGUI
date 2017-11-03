@@ -1,4 +1,4 @@
-package sole.memory.guishop.windows;
+package sole.memory.menugui.windows;
 
 import cn.nukkit.form.window.FormWindow;
 

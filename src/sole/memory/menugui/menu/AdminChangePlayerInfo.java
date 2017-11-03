@@ -1,4 +1,4 @@
-package sole.memory.guishop.menu;
+package sole.memory.menugui.menu;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -6,10 +6,10 @@ import cn.nukkit.form.element.*;
 import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowModal;
 import money.Money;
-import sole.memory.guishop.utils.StringUtils;
-import sole.memory.guishop.windows.Custom;
-import sole.memory.guishop.windows.Simple;
-import sole.memory.guishop.windows.button.ButtonInfo;
+import sole.memory.menugui.utils.StringUtils;
+import sole.memory.menugui.windows.Custom;
+import sole.memory.menugui.windows.Simple;
+import sole.memory.menugui.windows.button.ButtonInfo;
 
 import java.util.HashMap;
 

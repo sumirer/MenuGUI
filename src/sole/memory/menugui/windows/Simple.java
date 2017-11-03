@@ -1,7 +1,7 @@
-package sole.memory.guishop.windows;
+package sole.memory.menugui.windows;
 
 import cn.nukkit.form.window.FormWindowSimple;
-import sole.memory.guishop.windows.button.ButtonInfo;
+import sole.memory.menugui.windows.button.ButtonInfo;
 
 import java.util.HashMap;
 
