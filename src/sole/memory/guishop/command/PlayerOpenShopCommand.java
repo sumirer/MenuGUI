@@ -4,7 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
-import sole.memory.guishop.shop.PlayerBuyShop;
+import sole.memory.guishop.menu.PlayerBuyShop;
 
 /**
  * Created by SoleMemory
@@ -14,7 +14,7 @@ public class PlayerOpenShopCommand extends Command{
 
 
     public PlayerOpenShopCommand(String name) {
-        super(name,  "open gui shop","");
+        super(name,  "open gui menu","");
         this.setPermission("sole.memory.gui.player");
     }
 

@@ -3,10 +3,10 @@ package sole.memory.guishop.database;
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;
 import cn.nukkit.utils.Config;
-import sole.memory.guishop.GUIShop;
-import sole.memory.guishop.shop.AdminSetShop;
-import sole.memory.guishop.shop.data.SellData;
-import sole.memory.guishop.shop.data.ShopData;
+import sole.memory.guishop.MenuGUI;
+import sole.memory.guishop.menu.AdminSetShop;
+import sole.memory.guishop.menu.data.SellData;
+import sole.memory.guishop.menu.data.ShopData;
 import sole.memory.guishop.utils.StringUtils;
 import sole.memory.guishop.windows.button.ButtonInfo;
 
@@ -20,9 +20,9 @@ import java.util.Map;
  * on 2017/10/31.
  */
 public class ConfigDataBase {
-    private static String path = GUIShop.getInstance().getDataFolder()+"/shop.yml";
+    private static String path = MenuGUI.getInstance().getDataFolder()+"/menu.yml";
 
-    private static String sellPath = GUIShop.getInstance().getDataFolder()+"/sell.yml";
+    private static String sellPath = MenuGUI.getInstance().getDataFolder()+"/sell.yml";
 
     public static HashMap<String,ShopData> data = new HashMap<>();
 
@@ -63,7 +63,7 @@ public class ConfigDataBase {
             data1.price = Float.valueOf(map1.get("price").toString());
             ConfigDataBase.sellData.put(index,data1);
         });
-        GUIShop.getInstance().getLogger().info("data is load...");
+        MenuGUI.getInstance().getLogger().info("data is load...");
     }
 
     public static void deleteData(String index){

@@ -13,17 +13,17 @@ import sole.memory.guishop.listener.EventListener;
  * on 2017/10/31.
  * @author SoleMemory
  */
-public class GUIShop extends PluginBase{
+public class MenuGUI extends PluginBase{
 
-    private static GUIShop plugin = null;
+    private static MenuGUI plugin = null;
 
-    public static GUIShop getInstance(){
-        return GUIShop.plugin;
+    public static MenuGUI getInstance(){
+        return MenuGUI.plugin;
     }
 
     @Override
     public void onEnable() {
-        GUIShop.plugin = this;
+        MenuGUI.plugin = this;
         this.getDataFolder().mkdirs();
         this.getLogger().info("this just test gui");
         Server.getInstance().getPluginManager().registerEvents(new EventListener(),this);
@@ -40,8 +40,8 @@ public class GUIShop extends PluginBase{
 
 
     private void registerCommand(){
-        Server.getInstance().getCommandMap().register("GUIShop",new AdminAddItemCommand("gshop"));
-        Server.getInstance().getCommandMap().register("GUIShop",new PlayerOpenShopCommand("gui"));
+        Server.getInstance().getCommandMap().register("MenuGUI",new AdminAddItemCommand("gshop"));
+        Server.getInstance().getCommandMap().register("MenuGUI",new PlayerOpenShopCommand("gui"));
     }
 
 }

@@ -1,4 +1,4 @@
-package sole.memory.guishop.shop.data;
+package sole.memory.guishop.menu.data;
 
 import java.util.HashMap;
 

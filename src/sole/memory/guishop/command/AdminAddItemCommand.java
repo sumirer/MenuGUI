@@ -5,7 +5,7 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
 import sole.memory.guishop.listener.EventListener;
-import sole.memory.guishop.shop.AdminSetShop;
+import sole.memory.guishop.menu.AdminSetShop;
 
 /**
  * Created by SoleMemory
@@ -13,7 +13,7 @@ import sole.memory.guishop.shop.AdminSetShop;
  */
 public class AdminAddItemCommand extends Command {
     public AdminAddItemCommand(String name) {
-        super(name,"gui shop admin add/del shop item command","");
+        super(name,"gui menu admin add/del menu item command","");
         this.setPermission("sole.memory.gui.admin");
     }
 
@@ -25,6 +25,7 @@ public class AdminAddItemCommand extends Command {
         }
         if (!commandSender.hasPermission(this.getPermission())) {
             commandSender.sendMessage(TextFormat.RED + "你没有权限执行此命令");
+            return true;
         }
         ((Player) commandSender).showFormWindow(AdminSetShop.getMainPage());
         EventListener.isSetPlayer.put(commandSender.getName(), true);

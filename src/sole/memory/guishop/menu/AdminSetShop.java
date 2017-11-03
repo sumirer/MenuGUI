@@ -1,4 +1,4 @@
-package sole.memory.guishop.shop;
+package sole.memory.guishop.menu;
 
 import cn.nukkit.Player;
 import cn.nukkit.form.element.ElementDropdown;
@@ -11,9 +11,9 @@ import cn.nukkit.form.window.FormWindowModal;
 import cn.nukkit.form.window.FormWindowSimple;
 import cn.nukkit.utils.TextFormat;
 import sole.memory.guishop.database.ConfigDataBase;
-import sole.memory.guishop.shop.data.SellData;
-import sole.memory.guishop.shop.data.ShopData;
-import sole.memory.guishop.shop.item.ItemName;
+import sole.memory.guishop.menu.data.SellData;
+import sole.memory.guishop.menu.data.ShopData;
+import sole.memory.guishop.menu.item.ItemName;
 import sole.memory.guishop.utils.StringUtils;
 import sole.memory.guishop.windows.Custom;
 import sole.memory.guishop.windows.Simple;
@@ -30,8 +30,8 @@ public class AdminSetShop {
     //TODO: del model
     public String model = "add";
 
-    //shop and sell
-    public String type = "shop";
+    //menu and sell
+    public String type = "menu";
 
     public float price = 0;
 
@@ -49,9 +49,12 @@ public class AdminSetShop {
         buttonInfo.text = "设置出售商店";
         ButtonInfo buttonInfo1 = new ButtonInfo();
         buttonInfo1.text = "设置回收商店";
+        ButtonInfo buttonInfo2 = new ButtonInfo();
+        buttonInfo2.text = "设置玩家数据";
         HashMap<Integer, ButtonInfo> map = new HashMap<>();
         map.put(0, buttonInfo);
         map.put(1, buttonInfo1);
+        map.put(2,buttonInfo2);
         Simple simple = new Simple();
         simple.inputData(map);
         simple.changeDataToGUI();

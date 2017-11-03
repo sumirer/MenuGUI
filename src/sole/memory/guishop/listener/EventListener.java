@@ -13,17 +13,11 @@ import cn.nukkit.form.response.FormResponseSimple;
 import cn.nukkit.item.Item;
 import cn.nukkit.utils.TextFormat;
 import money.Money;
-import sole.memory.guishop.GUIShop;
+import sole.memory.guishop.MenuGUI;
 import sole.memory.guishop.database.ConfigDataBase;
-import sole.memory.guishop.shop.AdminSetShop;
-import sole.memory.guishop.shop.CommandSend;
-import sole.memory.guishop.shop.PlayerBuyShop;
-import sole.memory.guishop.shop.PlayerSellShop;
-import sole.memory.guishop.shop.data.BuyStepData;
-import sole.memory.guishop.shop.data.SellData;
-import sole.memory.guishop.shop.data.SellStepData;
-import sole.memory.guishop.shop.data.ShopData;
-import sole.memory.guishop.shop.item.ItemName;
+import sole.memory.guishop.menu.*;
+import sole.memory.guishop.menu.data.*;
+import sole.memory.guishop.menu.item.ItemName;
 import sole.memory.guishop.utils.StringUtils;
 
 import java.util.HashMap;
@@ -32,7 +26,7 @@ import java.util.HashMap;
  * Created by SoleMemory
  * on 2017/10/31.
  */
-public class EventListener extends GUIShop implements Listener {
+public class EventListener extends MenuGUI implements Listener {
 
 
     public static HashMap<String,Boolean> isSetPlayer = new HashMap<>();
@@ -44,6 +38,8 @@ public class EventListener extends GUIShop implements Listener {
     private  HashMap<String,SellStepData> sellStep = new HashMap<>();
 
     private HashMap<String,HashMap<String,Object>> commandStep = new HashMap<>();
+
+    private HashMap<String,AdminData> adminData = new HashMap<>();
 
 
 
@@ -64,7 +60,11 @@ public class EventListener extends GUIShop implements Listener {
         if (this.commandStep.containsKey(player.getName())){
             this.commandStep.remove(player.getName());
         }
+        if (this.adminData.containsKey(player.getName())){
+            adminData.remove(player.getName());
+        }
     }
+
 
     @EventHandler
     public void RespondedEvent(PlayerFormRespondedEvent event) {
@@ -91,7 +91,7 @@ public class EventListener extends GUIShop implements Listener {
         }
         if (response instanceof FormResponseSimple){
             String name = ((FormResponseSimple) response).getClickedButton().getText();
-            if (isSetPlayer.containsKey(player.getName()) && !setStep.containsKey(player.getName())){
+            if (isSetPlayer.containsKey(player.getName()) && !setStep.containsKey(player.getName()) && !adminData.containsKey(player.getName())){
                 AdminSetShop setShop = new AdminSetShop();
                 if ("设置出售商店".equals(name)) {
                     player.showFormWindow(AdminSetShop.getTypeChoosePage());
@@ -99,6 +99,11 @@ public class EventListener extends GUIShop implements Listener {
                 if ("设置回收商店".equals(name)) {
                     setShop.type = "sell";
                     player.showFormWindow(AdminSetShop.getTypeChoosePage());
+                }
+                if ("设置玩家数据".equals(name)){
+                    adminData.put(player.getName(),new AdminData());
+                   AdminChangePlayerInfo.showAllOnlinePlayerList(player);
+                   return;
                 }
                 EventListener.setStep.put(player.getName(),setShop);
                 return;
@@ -111,10 +116,10 @@ public class EventListener extends GUIShop implements Listener {
                 if (m.model.equals("add")){
                     player.showFormWindow(AdminSetShop.getSearchPage());
                 }
-                if (m.model.equals("del") && m.type.equals("shop")){
+                if (m.model.equals("del") && m.type.equals("menu")){
                     AdminSetShop.getAllShopPage(player);
                 }
-                if (m.model.equals("del") && m.type.equals("sell")){
+                if (m.model.equals("del") && m.type.equals("sell")) {
                     AdminSetShop.getSellShopAllPage(player);
                 }
                 return;
@@ -143,6 +148,51 @@ public class EventListener extends GUIShop implements Listener {
                 return;
             }
         }
+        //admin model
+        if (adminData.containsKey(player.getName())){
+            if (response instanceof FormResponseSimple){
+                String name = ((FormResponseSimple) response).getClickedButton().getText();
+                if (Server.getInstance().getPlayer(name.toLowerCase())==null){
+                    player.showFormWindow(AdminChangePlayerInfo.getPlayerNotOnlinePage(((FormResponseSimple) response).getClickedButton().getText()));
+                    cleanPlayerData(player);
+                    return;
+                }
+                Player player1 = Server.getInstance().getPlayer(name.toLowerCase());
+                player.showFormWindow(AdminChangePlayerInfo.getPlayerInfoPage(player1));
+                adminData.get(player.getName()).inputPlayer(player1);
+            }
+            if (response instanceof FormResponseCustom){
+                AdminData data = adminData.get(player.getName());
+                if (Server.getInstance().getPlayer(data.user)==null){
+                    //check player is online
+                    player.showFormWindow(AdminChangePlayerInfo.getPlayerNotOnlinePage(data.user));
+                    return;
+                }
+                Player player1 = Server.getInstance().getPlayer(data.user);
+                data.changeData(((FormResponseCustom) response).getResponses());
+                if (data.ban){
+                    player1.setBanned(true);
+                    player.showFormWindow(AdminChangePlayerInfo.getBanPlayerPage(data.user));
+                    return;
+                }
+                if (data.countError){
+                    AdminSetShop.getPriceErrorPage(data.money+"");
+                    AdminData vvb = new AdminData();
+                    vvb.inputPlayer(player1);
+                    adminData.put(player.getName(), vvb);
+                    return;
+                    //TODO:: count error to page
+                }
+                if (data.changeMoney) Money.getInstance().setMoney(player1,data.money);
+                if (data.changeMode) player1.setGamemode(AdminData.getMode(data.mode));
+                if (data.changeOp) player1.setOp(data.isOP);
+                if (data.kill) player1.kill();
+                if (data.kick) player1.kick("你被管理员踢出了游戏");
+                if (data.changeHealth) player1.setHealth(data.health);
+                if (data.teleport) player.teleport(player1.getLocation());
+                cleanPlayerData(player);
+            }
+        }
         //command
         if (commandStep.containsKey(player.getName())){
             if (response instanceof FormResponseSimple){
@@ -153,7 +203,8 @@ public class EventListener extends GUIShop implements Listener {
                 return;
             }
             if (response instanceof FormResponseCustom){
-                String input = ((FormResponseCustom) response).getResponses().get(0).toString();
+                HashMap<Integer,Object> nn = ((FormResponseCustom) response).getResponses();
+                String input = nn.size()>0?nn.get(0).toString():" ";
                 Command v = (Command) commandStep.get(player.getName()).get("command");
                 //not input value
                 if (input==null || " ".equals(input)){
@@ -170,7 +221,7 @@ public class EventListener extends GUIShop implements Listener {
         if (EventListener.isSetPlayer.containsKey(player.getName())) {
             if (!EventListener.setStep.containsKey(player.getName())) return;
             AdminSetShop adminSetShop = EventListener.setStep.get(player.getName());
-            //model: 1  mode: add type: shop/sell
+            //model: 1  mode: add type: menu/sell
             if (adminSetShop.model.equals("add")) {
                 if (response instanceof FormResponseCustom) {
                     if (adminSetShop.name.equals("")) {
@@ -205,7 +256,7 @@ public class EventListener extends GUIShop implements Listener {
                     }
                     if (((FormResponseModal) response).getClickedButtonText().equals("确认")) {
                         if (adminSetShop.isCheckData()) {
-                            if (adminSetShop.type.equals("shop")) {
+                            if (adminSetShop.type.equals("menu")) {
                                 ConfigDataBase.addNewData(adminSetShop);
                                 player.showFormWindow(adminSetShop.getSuccessPage());
                             }else {
@@ -219,9 +270,9 @@ public class EventListener extends GUIShop implements Listener {
                 }
                 return;
             }
-            //model: 2  mode: del type: shop/sell
+            //model: 2  mode: del type: menu/sell
             if (adminSetShop.model.equals("del")){
-                if (adminSetShop.type.equals("shop")){
+                if (adminSetShop.type.equals("menu")){
                     if (response instanceof FormResponseModal){
                         if (((FormResponseModal) response).getClickedButtonText().equals("重新编辑")){
                             player.showFormWindow(AdminSetShop.getEditShopPage(setStep.get(player.getName()).shopData));

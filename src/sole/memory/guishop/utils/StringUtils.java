@@ -1,8 +1,9 @@
 package sole.memory.guishop.utils;
 
+import cn.nukkit.Player;
 import cn.nukkit.utils.TextFormat;
-import sole.memory.guishop.shop.data.SellData;
-import sole.memory.guishop.shop.data.ShopData;
+import sole.memory.guishop.menu.data.SellData;
+import sole.memory.guishop.menu.data.ShopData;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,5 +60,9 @@ public class StringUtils {
             return command.substring(1,command.length());
         }
         return command;
+    }
+
+    public static String getPlayerInfo(Player player){
+        return "ID: "+player.getName()+"\n\n手机型号: "+player.getLoginChainData().getDeviceModel()+"\n游戏版本:"+player.getLoginChainData().getGameVersion()+"\nIP:"+player.getAddress()+"\n所处地图: "+player.getLevel().getFolderName()+"\n手持物品ID: "+player.getInventory().getItemInHand().getId()+":"+player.getInventory().getItemInHand().getDamage();
     }
 }

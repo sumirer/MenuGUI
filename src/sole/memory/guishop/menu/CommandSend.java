@@ -1,4 +1,4 @@
-package sole.memory.guishop.shop;
+package sole.memory.guishop.menu;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -49,7 +49,7 @@ public class CommandSend {
         for (CommandParameter parameter : parameters) {
             m.append("<").append(parameter.name).append(":").append(parameter.type).append("> ");
         }
-        ElementInput input = new ElementInput("请输入命令",new String(m)," ");
+        ElementInput input = new ElementInput("请输入命令",new String(m));
         ElementLabel label = new ElementLabel(Server.getInstance().getLanguage().translateString(command.getDescription())+"\n\n\n");
         HashMap<Integer,Object> map = new HashMap<>();
         map.put(map.size(),input);

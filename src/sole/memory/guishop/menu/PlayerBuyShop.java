@@ -1,4 +1,4 @@
-package sole.memory.guishop.shop;
+package sole.memory.guishop.menu;
 
 import cn.nukkit.Player;
 import cn.nukkit.form.element.ElementDropdown;
@@ -10,7 +10,7 @@ import cn.nukkit.form.window.FormWindowSimple;
 import cn.nukkit.utils.TextFormat;
 import money.Money;
 import sole.memory.guishop.database.ConfigDataBase;
-import sole.memory.guishop.shop.data.ShopData;
+import sole.memory.guishop.menu.data.ShopData;
 import sole.memory.guishop.utils.StringUtils;
 import sole.memory.guishop.windows.Custom;
 import sole.memory.guishop.windows.Simple;
