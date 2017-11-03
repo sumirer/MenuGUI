@@ -37,6 +37,9 @@ public class PlayerBuyShop {
         custom.inputData(map);
         custom.changeDataToGUI();
         custom.title = "出售商店";
+        if (ConfigDataBase.data.size()<1){
+            return PlayerBuyShop.getNullPage();
+        }
         return custom.getGUI();
     }
 
@@ -46,9 +49,12 @@ public class PlayerBuyShop {
         buttonInfo.text = "打开出售商店";
         ButtonInfo buttonInfo1 = new ButtonInfo();
         buttonInfo1.text = "打开回收商店";
+        ButtonInfo buttonInfo2 = new ButtonInfo();
+        buttonInfo2.text = "打开执行命令";
         HashMap<Integer,ButtonInfo> map = new HashMap<>();
         map.put(0,buttonInfo);
         map.put(1,buttonInfo1);
+        map.put(2,buttonInfo2);
         Simple simple = new Simple();
         simple.inputData(map);
         simple.changeDataToGUI();
@@ -75,15 +81,15 @@ public class PlayerBuyShop {
     }
 
     public static FormWindowModal getNoMoneyPage(ShopData data,int count){
-        return new FormWindowModal("金币不足","你的金币不足以购买 "+count+" 个 "+data.name,"退出","退出");
+        return new FormWindowModal("金币不足","你的金币不足以购买 "+count+" 个 "+data.name,"返回主页","退出");
     }
 
     public static FormWindowModal getFoolPage(ShopData data,int count){
-        return new FormWindowModal("空间不足","你的空间不足以存放 "+count+" 个 "+data.name,"退出","退出");
+        return new FormWindowModal("空间不足","你的空间不足以存放 "+count+" 个 "+data.name,"返回主页","退出");
     }
 
     public static FormWindowModal getBuySuccessPage(ShopData data,int count){
-        return new FormWindowModal("购买成功","你成功购买 "+count+" 个 "+data.name+"\n"+"花费金币: "+data.price*count,"退出","退出");
+        return new FormWindowModal("购买成功","你成功购买 "+count+" 个 "+data.name+"\n"+"花费金币: "+data.price*count,"返回主页","退出");
     }
 
     public static boolean playerHaveMoney(Player player,float price){
@@ -91,8 +97,8 @@ public class PlayerBuyShop {
     }
 
 
-    private static FormWindowModal getNullPage(){
-        return new FormWindowModal("无商品","商店空空如也.. ","退出","退出");
+    public static FormWindowModal getNullPage(){
+        return new FormWindowModal("无商品","商店空空如也.. ","返回主页","退出");
     }
 
 }

@@ -1,6 +1,8 @@
 package sole.memory.guishop.listener;
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
+import cn.nukkit.command.Command;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerFormRespondedEvent;
@@ -14,6 +16,7 @@ import money.Money;
 import sole.memory.guishop.GUIShop;
 import sole.memory.guishop.database.ConfigDataBase;
 import sole.memory.guishop.shop.AdminSetShop;
+import sole.memory.guishop.shop.CommandSend;
 import sole.memory.guishop.shop.PlayerBuyShop;
 import sole.memory.guishop.shop.PlayerSellShop;
 import sole.memory.guishop.shop.data.BuyStepData;
@@ -34,11 +37,13 @@ public class EventListener extends GUIShop implements Listener {
 
     public static HashMap<String,Boolean> isSetPlayer = new HashMap<>();
 
-    public static HashMap<String,AdminSetShop> setStep = new HashMap<>();
+    private static HashMap<String,AdminSetShop> setStep = new HashMap<>();
 
     private  HashMap<String,BuyStepData> buyStep = new HashMap<>();
 
     private  HashMap<String,SellStepData> sellStep = new HashMap<>();
+
+    private HashMap<String,HashMap<String,Object>> commandStep = new HashMap<>();
 
 
 
@@ -56,6 +61,9 @@ public class EventListener extends GUIShop implements Listener {
         if (this.sellStep.containsKey(player.getName())) {
             this.sellStep.remove(player.getName());
         }
+        if (this.commandStep.containsKey(player.getName())){
+            this.commandStep.remove(player.getName());
+        }
     }
 
     @EventHandler
@@ -70,6 +78,15 @@ public class EventListener extends GUIShop implements Listener {
             if (((FormResponseModal) response).getClickedButtonText().equals("退出")){
                cleanPlayerData(player);
                 return;
+            }
+            if (((FormResponseModal) response).getClickedButtonText().equals("返回主页")){
+                if (isSetPlayer.containsKey(player.getName())){
+                    player.showFormWindow(AdminSetShop.getMainPage());
+                    cleanPlayerData(player);
+                    return;
+                }
+                player.showFormWindow(PlayerBuyShop.getMainPage());
+                cleanPlayerData(player);
             }
         }
         if (response instanceof FormResponseSimple){
@@ -103,16 +120,53 @@ public class EventListener extends GUIShop implements Listener {
                 return;
             }
             if ("打开出售商店".equals(name)) {
+                if (!player.isSurvival()){
+                    player.sendMessage(TextFormat.RED+"请切换模式");
+                    return;
+                }
                 player.showFormWindow(PlayerBuyShop.getAllShopPage());
                 buyStep.put(player.getName(),new BuyStepData());
                 return;
             }
             if ("打开回收商店".equals(name)){
+                if (!player.isSurvival()){
+                    player.sendMessage(TextFormat.RED+"请切换模式");
+                    return;
+                }
                 PlayerSellShop.getSellPage(player);
                 sellStep.put(player.getName(),new SellStepData());
                 return;
             }
+            if ("打开执行命令".equals(name)){
+                CommandSend.getAllCommandInfoPage(player);
+                commandStep.put(player.getName(),new HashMap<>());
+                return;
+            }
         }
+        //command
+        if (commandStep.containsKey(player.getName())){
+            if (response instanceof FormResponseSimple){
+                Command command = Server.getInstance().getCommandMap().getCommand(((FormResponseSimple) response).getClickedButton().getText());
+                commandStep.get(player.getName()).put("command", command);
+                commandStep.get(player.getName()).put("commandString", "");
+                player.showFormWindow(CommandSend.getCommandInputPage(command));
+                return;
+            }
+            if (response instanceof FormResponseCustom){
+                String input = ((FormResponseCustom) response).getResponses().get(0).toString();
+                Command v = (Command) commandStep.get(player.getName()).get("command");
+                //not input value
+                if (input==null || " ".equals(input)){
+                    Server.getInstance().getCommandMap().dispatch(player,v.getName());
+                    commandStep.remove(player.getName());
+                    return;
+                }
+                Server.getInstance().getCommandMap().dispatch(player,v.getName()+" "+StringUtils.getCommand(input));
+                commandStep.remove(player.getName());
+                return;
+            }
+        }
+        //set
         if (EventListener.isSetPlayer.containsKey(player.getName())) {
             if (!EventListener.setStep.containsKey(player.getName())) return;
             AdminSetShop adminSetShop = EventListener.setStep.get(player.getName());
@@ -158,9 +212,6 @@ public class EventListener extends GUIShop implements Listener {
                                 ConfigDataBase.addNewSellData(adminSetShop);
                                 player.showFormWindow(adminSetShop.getSuccessSellPage());
                             }
-
-                            EventListener.isSetPlayer.remove(player.getName());
-                            EventListener.setStep.remove(player.getName());
                             return;
                         }
                         player.showFormWindow(adminSetShop.getFailedPage());
@@ -178,8 +229,6 @@ public class EventListener extends GUIShop implements Listener {
                         }
                         if (((FormResponseModal) response).getClickedButtonText().equals("取消编辑")){
                             player.showFormWindow(AdminSetShop.getEditFailedPage());
-                            isSetPlayer.remove(player.getName());
-                            setStep.remove(player.getName());
                         }
                     }
                     if (response instanceof FormResponseCustom){
@@ -193,12 +242,9 @@ public class EventListener extends GUIShop implements Listener {
                                 //delete this item
                                 ConfigDataBase.deleteData(adminSetShop.shopData.index);
                                 player.showFormWindow(AdminSetShop.getDeletePage("出售",adminSetShop.shopData.index));
-                                isSetPlayer.remove(player.getName());
-                                setStep.remove(player.getName());
                                 return;
                             }
                             if (!AdminSetShop.checkInputID(id)){
-                                //TODO:: Model
                                 player.showFormWindow(AdminSetShop.getIDErrorPage(id));
                                 return;
                             }
@@ -233,8 +279,6 @@ public class EventListener extends GUIShop implements Listener {
                         }
                         if (((FormResponseModal) response).getClickedButtonText().equals("取消编辑")){
                             player.showFormWindow(AdminSetShop.getEditFailedPage());
-                            isSetPlayer.remove(player.getName());
-                            setStep.remove(player.getName());
                         }
                     }
                     if (response instanceof FormResponseCustom){
@@ -267,8 +311,6 @@ public class EventListener extends GUIShop implements Listener {
                             cc.id = id;
                             ConfigDataBase.updateSellData(cc.index,cc);
                             player.showFormWindow(AdminSetShop.getEditSuccessPage());
-                            isSetPlayer.remove(player.getName());
-                            setStep.remove(player.getName());
                             return;
                         }
                         String index = StringUtils.getShopIndexByButtonText(((FormResponseCustom) response).getDropdownResponse(1).getElementContent());
@@ -304,12 +346,10 @@ public class EventListener extends GUIShop implements Listener {
                     Item item = Item.get(lk[0],lk[1]);
                     item.setCount(sellStep.get(player.getName()).sellCount);
                     player.getInventory().removeItem(item);
-                    sellStep.remove(player.getName());
                     return;
                 }
                 //cancel
                 player.showFormWindow(PlayerSellShop.getSellCancelPage());
-                sellStep.remove(player.getName());
             }
             return;
         }
@@ -348,7 +388,6 @@ public class EventListener extends GUIShop implements Listener {
                     item.setCount(data.count);
                     if (!player.getInventory().canAddItem(item)) {
                         player.showFormWindow(PlayerBuyShop.getFoolPage(data.data, data.count));
-                        this.buyStep.remove(player.getName());
                         return;
                     }
                     player.getInventory().addItem(item);

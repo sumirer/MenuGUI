@@ -53,4 +53,11 @@ public class StringUtils {
         }
         return new Integer[]{id,mate};
     }
+
+    public static String getCommand(String command){
+        if (command.substring(0,1).equals(" ")){
+            return command.substring(1,command.length());
+        }
+        return command;
+    }
 }

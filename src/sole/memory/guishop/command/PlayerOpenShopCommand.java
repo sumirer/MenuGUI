@@ -16,7 +16,6 @@ public class PlayerOpenShopCommand extends Command{
     public PlayerOpenShopCommand(String name) {
         super(name,  "open gui shop","");
         this.setPermission("sole.memory.gui.player");
-        this.setUsage("/gui");
     }
 
     @Override
@@ -24,10 +23,6 @@ public class PlayerOpenShopCommand extends Command{
 
         if (!(commandSender instanceof Player)){
             commandSender.sendMessage(TextFormat.RED+"请在游戏内执行此命令");
-            return true;
-        }
-        if (((Player) commandSender).isCreative()){
-            commandSender.sendMessage(TextFormat.RED+"请切换模式");
             return true;
         }
         ((Player) commandSender).showFormWindow(PlayerBuyShop.getMainPage());

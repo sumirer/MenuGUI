@@ -110,15 +110,15 @@ public class AdminSetShop {
     }
 
     public FormWindowModal getSuccessPage() {
-        return new FormWindowModal("出售添加成功", "成功添加物品到出售商店，请关闭此界面","退出","退出");
+        return new FormWindowModal("出售添加成功", "成功添加物品到出售商店，请关闭此界面","返回主页","退出");
     }
 
     public FormWindowModal getSuccessSellPage() {
-        return new FormWindowModal("回收添加成功", "成功添加物品到回收商店，请关闭此界面","退出","退出");
+        return new FormWindowModal("回收添加成功", "成功添加物品到回收商店，请关闭此界面","返回主页","退出");
     }
 
     public FormWindowModal getFailedPage() {
-        return new FormWindowModal("添加失败", TextFormat.RED + "添加物品到商店失败，请关闭此界面，并检查输入数据是否正确","退出","退出");
+        return new FormWindowModal("添加失败", TextFormat.RED + "添加物品到商店失败，请关闭此界面，并检查输入数据是否正确","返回主页","退出");
     }
 
 
@@ -202,14 +202,15 @@ public class AdminSetShop {
     }
 
     public static FormWindowModal getEditSuccessPage(){
-        return new FormWindowModal("修改成功","物品信息更新成功","退出","退出");
+        return new FormWindowModal("修改成功","物品信息更新成功","返回主页","退出");
     }
 
     public static FormWindowModal getEditFailedPage(){
-        return new FormWindowModal("修改失败","物品信息更新失败","退出","退出");
+        return new FormWindowModal("修改失败","物品信息更新失败","返回主页","退出");
     }
 
     public static FormWindowModal getDeletePage(String type,String index){
-        return new FormWindowModal("成功删除","成功删除类型为: "+type+" 的物品,商店代号: "+index,"退出","退出");
+        return new FormWindowModal("成功删除","成功删除类型为: "+type+" 的物品,商店代号: "+index,"返回主页","退出");
     }
+
 }
