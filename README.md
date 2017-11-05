@@ -15,6 +15,14 @@ PS
  
  <a href="https://github.com/Him188/Money">Money</a>
  
+Test Server
+-----------
+you can test this plugin in server..<br>
+
+
+IP: **jamworld.cn**    
+Port: **19132**
+
 
 How to use
 ----------
