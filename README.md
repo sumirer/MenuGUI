@@ -4,7 +4,7 @@
 
   More functions are still in development..
 
-PS
+Postscript
 ----------
 
   Only support Server version 1.2.2
