@@ -7,8 +7,14 @@
 PS
 ----------
 
-  Only support Server version 1.2.2<br>
+  Only support Server version 1.2.2
+  
   <a href="https://github.com/Nukkit/Nukkit">get Nukkit Server</a>
+ 
+ this plugin depond on "Money" ,if not install this plugin ,It's can't work to Server.
+ 
+ <a href="https://github.com/Him188/Money">Money</a>
+ 
 
 How to use
 ----------
@@ -30,9 +36,9 @@ Command
 
   you can use this pluin by command.
   
-  `/gshop`   Permission: OP    use: open admin Edit page
+  `/gshop`   Permission: OP    use: open admin Edit page.
 
-  `/gui `    Permission: true  use: open player use menuGUI page\
+  `/gui `    Permission: true  use: open player use menuGUI page
 
 
 Bug Report
