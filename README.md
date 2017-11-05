@@ -17,7 +17,7 @@ Postscript
  
 Test Server
 -----------
-you can test this plugin in server..<br>
+you can use this plugin in server..<br>
 
 
 IP: **jamworld.cn**    
