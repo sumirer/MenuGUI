@@ -5,11 +5,13 @@
   More functions are still in development..
 
 PS
+----------
 
-  Only support Server version 1.2.2
+  Only support Server version 1.2.2<br>
   <a href="https://github.com/Nukkit/Nukkit">get Nukkit Server</a>
 
 How to use
+----------
 
   This plugin can edit player's info on player is online
 
@@ -24,6 +26,7 @@ How to use
   and Realize these functions
 
 Command
+----------
 
   you can use this pluin by command
   `/gshop`   Permission: OP    use: open admin Edit page
@@ -32,7 +35,7 @@ Command
 
 
 Bug Report
-
+----------
 
   If you have any problems in use
 
