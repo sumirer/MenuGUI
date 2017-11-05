@@ -8,6 +8,8 @@ import sole.memory.menugui.command.PlayerOpenShopCommand;
 import sole.memory.menugui.database.ConfigDataBase;
 import sole.memory.menugui.listener.EventListener;
 
+import java.io.File;
+
 /**
  *
  * on 2017/10/31.
@@ -25,6 +27,12 @@ public class MenuGUI extends PluginBase{
     public void onEnable() {
         MenuGUI.plugin = this;
         this.getDataFolder().mkdirs();
+        File file = new File(getDataFolder()+"/imgPath");
+        if (!file.exists() && file.isDirectory()){
+            file.mkdir();
+        }
+        this.saveResource("imgPath/set.png",false);
+        this.saveResource("imgPath/shop.jpg",false);
         this.getLogger().info("this just test gui");
         Server.getInstance().getPluginManager().registerEvents(new EventListener(),this);
         ConfigDataBase.initData();

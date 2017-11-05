@@ -23,6 +23,12 @@ public class AdminData {
 
     public boolean checkInventory = false;
 
+   public Integer[] itemID = null;
+
+    public int itemCount = -100;
+
+    public int itemIndex = -100;
+
     public boolean kill = false;
 
     public boolean kick = false;
@@ -103,7 +109,7 @@ public class AdminData {
         kill = (boolean)map.get(7);
         kick = (boolean)map.get(8);
         ban = (boolean)map.get(9);
-        if (health==Float.valueOf(map.get(3).toString())){
+        if (health!=Float.valueOf(map.get(3).toString())){
             health = Float.valueOf(map.get(3).toString());
             changeHealth = true;
         }

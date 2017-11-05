@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MenuGUI">
+    <output-path>$USER_HOME$/Desktop/Nukkit/plugins</output-path>
+    <root id="archive" name="MenuGUI.jar">
+      <element id="module-output" name="MenuGUI" />
+    </root>
+  </artifact>
+</component>

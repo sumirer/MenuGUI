@@ -81,8 +81,9 @@ public class EventListener extends MenuGUI implements Listener {
                cleanPlayerData(player);
                 return;
             }
+            //reEdit
             if (((FormResponseModal) response).getClickedButtonText().equals("返回主页")){
-                if (isSetPlayer.containsKey(player.getName())){
+                if (isSetPlayer.containsKey(player.getName())||adminData.containsKey(player.getName())){
                     player.showFormWindow(AdminSetShop.getMainPage());
                     cleanPlayerData(player);
                     return;
@@ -154,6 +155,19 @@ public class EventListener extends MenuGUI implements Listener {
         if (adminData.containsKey(player.getName())){
             if (response instanceof FormResponseSimple){
                 String name = ((FormResponseSimple) response).getClickedButton().getText();
+                AdminData mm = adminData.get(player.getName());
+                if (mm.checkInventory){
+                    if (Server.getInstance().getPlayer(mm.user)==null){
+                        //check player is online
+                        player.showFormWindow(AdminChangePlayerInfo.getPlayerNotOnlinePage(mm.user));
+                        return;
+                    }
+                    adminData.get(player.getName()).itemCount= Server.getInstance().getPlayer(mm.user).getInventory().getItem(StringUtils.getButtonItemIndex(name)).count;
+                    adminData.get(player.getName()).itemIndex = StringUtils.getButtonItemIndex(name);
+                    adminData.get(player.getName()).itemID = StringUtils.getButtonItemID(name);
+                    player.showFormWindow(AdminChangePlayerInfo.getItemEditPage(mm.user,adminData.get(player.getName()).itemCount));
+                    return;
+                }
                 if (Server.getInstance().getPlayer(name.toLowerCase())==null){
                     player.showFormWindow(AdminChangePlayerInfo.getPlayerNotOnlinePage(((FormResponseSimple) response).getClickedButton().getText()));
                     cleanPlayerData(player);
@@ -171,6 +185,19 @@ public class EventListener extends MenuGUI implements Listener {
                     return;
                 }
                 Player player1 = Server.getInstance().getPlayer(data.user);
+                //is checkInventory Model
+                if (data.checkInventory&&data.itemIndex!=-100&&data.itemCount!=-100){
+                    Item item = player1.getInventory().getItem(data.itemIndex);
+                    if (item.getId()==data.itemID[0]&&item.getDamage()==data.itemID[1]&&item.count==data.itemCount){
+                        int count = StringUtils.StringToInteger(((FormResponseCustom) response).getResponses().get(0).toString());
+                        item.setCount(count);
+                        player1.getInventory().setItem(data.itemIndex,item);
+                        player.showFormWindow(AdminChangePlayerInfo.getEditBackPage(data.user,count));
+                    }else {
+                        player.showFormWindow(AdminChangePlayerInfo.getUnKnowErrorPage(data.user));
+                    }
+                    return;
+                }
                 data.changeData(((FormResponseCustom) response).getResponses());
                 if (data.ban){
                     player1.setBanned(true);
@@ -183,7 +210,6 @@ public class EventListener extends MenuGUI implements Listener {
                     vvb.inputPlayer(player1);
                     adminData.put(player.getName(), vvb);
                     return;
-                    //TODO:: count error to page
                 }
                 if (data.changeMoney) Money.getInstance().setMoney(player1,data.money);
                 if (data.changeMode) player1.setGamemode(AdminData.getMode(data.mode));
@@ -203,7 +229,40 @@ public class EventListener extends MenuGUI implements Listener {
                     }
                 }
                 if (data.teleport) player.teleport(player1.getLocation());
+                if (!data.teleport&&!data.kill&&!data.kick){
+                    //if checkInventory is true not clean edit data
+                    if (data.checkInventory){
+                        player.showFormWindow(AdminChangePlayerInfo.getPlayerInventoryInfoPage(player1));
+                        return;
+                    }
+                }
                 cleanPlayerData(player);
+            }
+            if (response instanceof FormResponseModal){
+                if (((FormResponseModal) response).getClickedButtonText().equals("重新编辑")){
+                    AdminData data = adminData.get(player.getName());
+                    if (Server.getInstance().getPlayer(data.user)==null){
+                        //check player is online
+                        player.showFormWindow(AdminChangePlayerInfo.getPlayerNotOnlinePage(data.user));
+                        return;
+                    }
+                    player.showFormWindow(AdminChangePlayerInfo.getPlayerInfoPage(Server.getInstance().getPlayer(data.user.toLowerCase())));
+                }
+                if (((FormResponseModal) response).getClickedButtonText().equals("返回背包")){
+
+                    AdminData data = adminData.get(player.getName());
+                    if (Server.getInstance().getPlayer(data.user)==null){
+                        //check player is online
+                        player.showFormWindow(AdminChangePlayerInfo.getPlayerNotOnlinePage(data.user));
+                        return;
+                    }
+                    //clean after item data
+                    data.itemID = null;
+                    data.itemCount = -100;
+                    data.itemIndex = -100;
+                    adminData.put(player.getName(),data);
+                    player.showFormWindow(AdminChangePlayerInfo.getPlayerInventoryInfoPage(Server.getInstance().getPlayer(data.user)));
+                }
             }
         }
         //command

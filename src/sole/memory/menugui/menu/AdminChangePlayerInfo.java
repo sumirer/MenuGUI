@@ -5,6 +5,7 @@ import cn.nukkit.Server;
 import cn.nukkit.form.element.*;
 import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowModal;
+import cn.nukkit.item.Item;
 import money.Money;
 import sole.memory.menugui.utils.StringUtils;
 import sole.memory.menugui.windows.Custom;
@@ -12,6 +13,7 @@ import sole.memory.menugui.windows.Simple;
 import sole.memory.menugui.windows.button.ButtonInfo;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by SoleMemory
@@ -52,7 +54,7 @@ public class AdminChangePlayerInfo {
         ElementToggle ban = new ElementToggle("禁止加入",false);
         ElementToggle kick = new ElementToggle("踢出服务器",false);
         ElementToggle teapot = new ElementToggle("传送到身边",false);
-        ElementToggle inventory = new ElementToggle("背包管理(未完工)",false);
+        ElementToggle inventory = new ElementToggle("背包管理(部分选项影响此页面)",false);
         HashMap<Integer,Object> map = new HashMap<>();
         map.put(map.size(),info);
         map.put(map.size(),isOP);
@@ -72,6 +74,47 @@ public class AdminChangePlayerInfo {
         return custom.getGUI();
     }
 
+    public static FormWindow getPlayerInventoryInfoPage(Player player){
+        HashMap<Integer,ButtonInfo> infoHashMap = new HashMap<>();
+        Map<Integer,Item> itemMap = player.getInventory().getContents();
+        if (itemMap.size()<1){
+            return new FormWindowModal("背包为空","没有获取到玩家背包的任何数据","返回主页","退出");
+        }
+        for (Map.Entry<Integer,Item> itemEntry:itemMap.entrySet()) {
+            ButtonInfo info = new ButtonInfo();
+            info.haveImg = false;
+            info.text =StringUtils.getItemInfo(itemEntry.getValue(),itemEntry.getKey());
+            infoHashMap.put(infoHashMap.size(),info);
+        }
+        Simple simple = new Simple();
+        simple.text = player.getName()+"的背包信息";
+        simple.info = "点击按钮可以编辑物品信息";
+        simple.inputData(infoHashMap);
+        simple.changeDataToGUI();
+        return simple.getGUI();
+    }
+
+    public static FormWindow getItemEditPage(String player,float count){
+        ElementSlider slider = new ElementSlider("请设置物品数量:",0,64,1,count);
+        ElementLabel label = new ElementLabel("数量为0时直接删除此物品");
+        HashMap<Integer,Object> map = new HashMap<>();
+        map.put(0,slider);
+        map.put(1,label);
+        Custom custom = new Custom();
+        custom.title = player+"的背包";
+        custom.inputData(map);
+        custom.changeDataToGUI();
+        return custom.getGUI();
+    }
+
+    public static FormWindow getEditBackPage(String player,float count){
+        return new FormWindowModal(player+"的背包","成功将此物品的数量改为"+count,"返回背包","返回主页");
+    }
+
+    public static FormWindow getUnKnowErrorPage(String player){
+        return new FormWindowModal(player+"的背包","未知错误，无法完成修改","返回背包","返回主页");
+    }
+
     public static FormWindowModal getPlayerNotOnlinePage(String player){
         return new FormWindowModal("玩家不在线","玩家："+player+" 已经不在线了！！！！","返回主页","退出");
     }
@@ -81,6 +124,7 @@ public class AdminChangePlayerInfo {
     }
 
     public static FormWindowModal getCountErrorPage(String price){
-        return new FormWindowModal("数据错误","输入数据: "+price+" 不正确","重新编辑","取消编辑");
+        return new FormWindowModal("数据错误","输入数据: "+price+" 不正确","重新编辑","返回主页");
     }
+
 }
