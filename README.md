@@ -1,33 +1,39 @@
 # MenuGUI
 
-A GUI Menu for Nukkit Server..
+  A GUI Menu for Nukkit Server..
 
-More functions are still in development..
+  More functions are still in development..
 
-#PS
-Only support Server version 1.2.2
-<a href="https://github.com/Nukkit/Nukkit">get Nukkit Server</a>
+PS
 
-#How to use
-This plugin can edit player's info on player is online
+  Only support Server version 1.2.2
+  <a href="https://github.com/Nukkit/Nukkit">get Nukkit Server</a>
 
-and Support sales and recycling item by GUI
+How to use
 
-support edit shop data in game by GUI
+  This plugin can edit player's info on player is online
 
-player can input command open GUI menu
+  and Support sales and recycling item by GUI
 
-And then, you can choose function on GUI page
+  support edit shop data in game by GUI
 
-and Realize these functions
+  player can input command open GUI menu
 
-#Command
-/gshop   Permission: OP    use: open admin Edit page
+  And then, you can choose function on GUI page
 
-/gui     Permission: true  use: open player use menuGUI page\
+  and Realize these functions
 
-#Bug Report
+Command
 
-If you have any problems in use
+  you can use this pluin by command
+  `/gshop`   Permission: OP    use: open admin Edit page
 
-you can Submit issues or Email: 1668961992@qq.com
+  `/gui `    Permission: true  use: open player use menuGUI page\
+
+
+Bug Report
+
+
+  If you have any problems in use
+
+  you can Submit issues or Email: 1668961992@qq.com
