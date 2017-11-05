@@ -28,7 +28,8 @@ How to use
 Command
 ----------
 
-  you can use this pluin by command
+  you can use this pluin by command.
+  
   `/gshop`   Permission: OP    use: open admin Edit page
 
   `/gui `    Permission: true  use: open player use menuGUI page\
