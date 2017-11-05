@@ -11,7 +11,7 @@ Postscript
   
   <a href="https://github.com/Nukkit/Nukkit">get Nukkit Server</a>
  
- this plugin depond on "Money" ,if not install this plugin ,It's can't work to Server.
+ this plugin depond on "Money" ,if not install this plugin ,It's can't work on Server.
  
  <a href="https://github.com/Him188/Money">Money</a>
  
