@@ -1,8 +1,11 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="MenuGUI">
-    <output-path>$USER_HOME$/Desktop/Nukkit/plugins</output-path>
+    <output-path>$USER_HOME$/Desktop/PE/Nukkit/plugins</output-path>
     <root id="archive" name="MenuGUI.jar">
       <element id="module-output" name="MenuGUI" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
     </root>
   </artifact>
 </component>

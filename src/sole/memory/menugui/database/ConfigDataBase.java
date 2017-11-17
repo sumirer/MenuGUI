@@ -63,7 +63,7 @@ public class ConfigDataBase {
             data1.price = Float.valueOf(map1.get("price").toString());
             ConfigDataBase.sellData.put(index,data1);
         });
-        MenuGUI.getInstance().getLogger().info("imgPath is load...");
+        MenuGUI.getInstance().getLogger().info("data is load...");
     }
 
     public static void deleteData(String index){

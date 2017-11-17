@@ -1,0 +1,69 @@
+---
+############################################
+#############  tip Msg ###################
+############################################
+gui-admin-cancel: "已经取消操作"
+game-mode-check-msg: "请切换模式"
+admin-kick-msg: "你被管理员踢出了游戏"
+
+
+############################################
+##########  gui button text  ###############
+############################################
+gui-button-determine: "确认"
+gui-button-back: "返回"
+gui-button-quite: "退出"
+gui-button-back-main-page: "返回主页"
+gui-button-set-sell: "设置回收商店"
+gui-button-set-shop: "设置出售商店"
+gui-button-set-data: "设置玩家数据"
+gui-button-set-add-item: "添加物品"
+gui-button-set-del-item: "删除物品"
+gui-button-open-shop-sell: "打开回收商店"
+gui-button-open-shop-shop: "打开出售商店"
+gui-button-open-command: "打开执行命令"
+gui-button-re-edit: "重新编辑"
+gui-button-cancel-edit: "取消编辑"
+gui-button-back-inventory: "返回背包"
+gui-button-reenter: "重新输入"
+gui-button-cancel: "取消添加"
+
+
+
+############################################
+#########  AdminChangePlayerInfo  #########
+############################################
+admin-change-1: "玩家管理系统"
+admin-change-2: "点击管理在线玩家"
+admin-change-admin: "管理员身份"
+admin-change-health: "生命"
+admin-change-mode: "模式"
+admin-change-mode-0: "生存"
+admin-change-mode-1: "创造"
+admin-change-mode-2: "冒险"
+admin-change-mode-3: "观察"
+admin-change-money: "金币"
+admin-change-money-msg: "<留空表示不更改>"
+admin-change-effect: "药水效果"
+admin-change-kill: "杀死玩家"
+admin-change-ban: "禁止加入"
+admin-change-kick: "踢出服务器"
+admin-change-teleport: "传送到身边"
+admin-change-inventory: "背包管理(部分选项影响此页面)"
+admin-change-player-info: "%c 的信息"
+admin-change-inventory-null: "背包为空"
+admin-change-inventory-null-msg: "没有获取到玩家背包的任何数据"
+admin-change-inventory-info: "%c 的背包信息"
+admin-change-kick-button-edit: "点击按钮可以编辑物品信息"
+admin-change-set-item-count: "请设置物品数量:"
+admin-change-set-item-count-msg: "数量为0时直接删除此物品"
+admin-change-player-inventory: "%c 的背包"
+admin-change-item-count-change: "成功将此物品的数量改为%c"
+admin-change-unknown-error: "未知错误，无法完成修改"
+admin-change-player-not-online: "玩家不在线"
+admin-change-player-not-online-msg: "玩家：%c 已经不在线了！！！！"
+admin-change-ban: "禁止玩家加入"
+admin-change-ban-player-msg: "玩家：%c 已经被加入禁止列表！！！！"
+admin-change-data-error: "数据错误"
+admin-change-data-error-msg: "输入数据: %c 不正确"
+...

@@ -92,4 +92,16 @@ public class StringUtils {
     public static int StringToInteger(String ff){
         return Integer.valueOf(ff.substring(0,ff.indexOf(".")));
     }
+
+    public static boolean isEmail( String str ) {
+        // "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$"
+        String regex = "^[a-zA-Z0-9][a-zA-Z0-9_\\.]+[a-zA-Z0-9]@[a-z0-9]{2,7}(\\.[a-z]{2,3}){1,3}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher match=pattern.matcher(str);
+        return match.matches();
+    }
+
+    public static String getRandonNumber(){
+        return String.valueOf((int) ((Math.random()*9+1)*100000));
+    }
 }

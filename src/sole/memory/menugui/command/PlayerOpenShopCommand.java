@@ -3,6 +3,7 @@ package sole.memory.menugui.command;
 import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.lang.TranslationContainer;
 import cn.nukkit.utils.TextFormat;
 import sole.memory.menugui.menu.PlayerBuyShop;
 
@@ -22,7 +23,7 @@ public class PlayerOpenShopCommand extends Command{
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
 
         if (!(commandSender instanceof Player)){
-            commandSender.sendMessage(TextFormat.RED+"请在游戏内执行此命令");
+            commandSender.sendMessage(new TranslationContainer(TextFormat.RED+"%commands.generic.permission"));
             return true;
         }
         ((Player) commandSender).showFormWindow(PlayerBuyShop.getMainPage());
