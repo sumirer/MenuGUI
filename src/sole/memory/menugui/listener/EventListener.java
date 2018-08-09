@@ -305,7 +305,8 @@ public class EventListener implements Listener {
             }
             if (response instanceof FormResponseCustom) {
                 HashMap<Integer, Object> nn = ((FormResponseCustom) response).getResponses();
-                String input = nn.size() > 0 ? nn.get(0).toString() : " ";
+                Server.getInstance().getLogger().warning("Map： "+nn.toString());
+                String input = nn.get(0).equals("") ?" ": nn.get(0).toString();
                 Command v = (Command) commandStep.get(player.getName()).get("command");
                 //not input value
                 if (input == null || " ".equals(input)) {

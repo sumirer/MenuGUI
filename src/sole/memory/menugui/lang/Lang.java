@@ -15,7 +15,7 @@ public class Lang {
     public static HashMap<String,String> lang = new HashMap<>();
 
     public static void init(String type){
-        MenuGUI.getInstance().saveResource("/lang/Language_"+type+".yml",false);
+        MenuGUI.getInstance().saveResource("lang/Language_"+type+".yml",false);
         Map<String,Object> map = new Config(MenuGUI.getInstance().getDataFolder()+"/lang/Language_"+type+".yml",Config.YAML).getAll();
         map.forEach((key,value)-> lang.put(key,value.toString()));
     }

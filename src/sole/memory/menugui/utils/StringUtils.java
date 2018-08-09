@@ -58,6 +58,7 @@ public class StringUtils {
     }
 
     public static String getCommand(String command){
+
         if (command.substring(0,1).equals(" ")){
             return command.substring(1,command.length());
         }
