@@ -59,7 +59,6 @@ public class EventListener implements Listener {
     private void cleanPlayerData(Player player){
         if (EventListener.setStep.containsKey(player.getName())) {
             EventListener.setStep.remove(player.getName());
-            player.sendMessage(TextFormat.GOLD + Lang.translate("gui-admin-cancel"));
         }
         if (EventListener.isSetPlayer.containsKey(player.getName())) {
             EventListener.isSetPlayer.remove(player.getName());
@@ -305,7 +304,6 @@ public class EventListener implements Listener {
             }
             if (response instanceof FormResponseCustom) {
                 HashMap<Integer, Object> nn = ((FormResponseCustom) response).getResponses();
-                Server.getInstance().getLogger().warning("Map： "+nn.toString());
                 String input = nn.get(0).equals("") ?" ": nn.get(0).toString();
                 Command v = (Command) commandStep.get(player.getName()).get("command");
                 //not input value

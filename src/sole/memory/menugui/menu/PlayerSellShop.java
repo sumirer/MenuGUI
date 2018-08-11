@@ -26,6 +26,10 @@ public class PlayerSellShop {
         ElementLabel label = new ElementLabel(TextFormat.AQUA+"请选择要出售的物品");
         ElementDropdown stepSlider = new ElementDropdown("可出售物品");
         HashMap<Integer,SellData> maps = ConfigDataBase.getPlayerHaveItemList(player);
+        if (maps.size() == 0){
+            player.showFormWindow(getNullPage());
+            return;
+        }
         for (SellData date: maps.values()) {
             stepSlider.addOption(StringUtils.getSellInfoStepText(date));
         }
@@ -67,6 +71,9 @@ public class PlayerSellShop {
 
     public static FormWindowModal getSellSuccessPage(float price){
         return new FormWindowModal("交易成功","此次交易成功\n获得金币:"+price,"返回主页","退出");
+    }
+    public static FormWindowModal getNullPage(){
+        return new FormWindowModal("无可售出商品","你的背包没有商店能售出的物品...","返回主页","退出");
     }
 
 
