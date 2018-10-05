@@ -1,21 +1,26 @@
 package sole.memory.menugui.listener;
 
+import cn.nukkit.AdventureSettings;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.Command;
+import cn.nukkit.entity.Entity;
+import cn.nukkit.entity.EntityDamageable;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
+import cn.nukkit.event.block.BlockBreakEvent;
+import cn.nukkit.event.block.BlockPlaceEvent;
+import cn.nukkit.event.entity.EntityDamageByEntityEvent;
 import cn.nukkit.event.entity.EntityDamageEvent;
-import cn.nukkit.event.player.PlayerFormRespondedEvent;
-import cn.nukkit.event.player.PlayerJoinEvent;
-import cn.nukkit.event.player.PlayerLoginEvent;
-import cn.nukkit.event.player.PlayerQuitEvent;
+import cn.nukkit.event.entity.EntityLevelChangeEvent;
+import cn.nukkit.event.player.*;
 import cn.nukkit.form.response.FormResponse;
 import cn.nukkit.form.response.FormResponseCustom;
 import cn.nukkit.form.response.FormResponseModal;
 import cn.nukkit.form.response.FormResponseSimple;
 import cn.nukkit.item.Item;
 import cn.nukkit.lang.TranslationContainer;
+import cn.nukkit.level.Level;
 import cn.nukkit.utils.TextFormat;
 import money.Money;
 import sole.memory.menugui.MenuGUI;
@@ -54,6 +59,7 @@ public class EventListener implements Listener {
 
     private HashMap<String,HashMap<String,Object>> loginList = new HashMap<>();
 
+    private HashMap<String,Boolean> setLevel = new HashMap<>();
 
 
     private void cleanPlayerData(Player player){
@@ -74,6 +80,9 @@ public class EventListener implements Listener {
         }
         if (this.adminData.containsKey(player.getName())){
             adminData.remove(player.getName());
+        }
+        if (setLevel.containsKey(player.getName())){
+            setLevel.remove(player.getName());
         }
     }
 
@@ -104,7 +113,7 @@ public class EventListener implements Listener {
         }
         if (response instanceof FormResponseSimple) {
             String name = ((FormResponseSimple) response).getClickedButton().getText();
-            if (isSetPlayer.containsKey(player.getName()) && !setStep.containsKey(player.getName()) && !adminData.containsKey(player.getName())) {
+            if (isSetPlayer.containsKey(player.getName()) && !setStep.containsKey(player.getName()) && !adminData.containsKey(player.getName()) &&!setLevel.containsKey(player.getName())) {
                 AdminSetShop setShop = new AdminSetShop();
                 if (Lang.translate("gui-button-set-shop").equals(name)) {
                     player.showFormWindow(AdminSetShop.getTypeChoosePage());
@@ -116,6 +125,15 @@ public class EventListener implements Listener {
                 if (Lang.translate("gui-button-set-data").equals(name)) {
                     adminData.put(player.getName(), new AdminData());
                     AdminChangePlayerInfo.showAllOnlinePlayerList(player);
+                    return;
+                }
+                if (Lang.translate("gui-button-set-level").equals(name)){
+                    setLevel.put(player.getName(),true);
+                    ManagerLevelSend.sendAllLevel(player);
+                    return;
+                }
+                if ("重载地图".equals(name)){
+                    ManagerLevelSend.reloadLevel(player,LevelData.loadNewMap());
                     return;
                 }
                 EventListener.setStep.put(player.getName(), setShop);
@@ -161,6 +179,7 @@ public class EventListener implements Listener {
                 return;
             }
         }
+        if (managerLevel(response,player)) return;
         //admin model
         if (adminSetPlayerDataInfo(response,player)) return;
         //command
@@ -174,6 +193,32 @@ public class EventListener implements Listener {
     }
 
 
+    private boolean managerLevel(FormResponse response,Player player){
+        if (setLevel.containsKey(player.getName())) {
+            if (response instanceof FormResponseCustom){
+                String levelName = ((FormResponseCustom) response).getResponse(0).toString();
+                if (!LevelData.levelList.containsKey(levelName)){
+                    //错误修改levelName
+                    ManagerLevelSend.getFliedPage(player);
+                    return true;
+                }
+                LevelData levelData = LevelData.levelList.get(levelName);
+                if (levelData.update(((FormResponseCustom) response).getResponses())){
+                    ManagerLevelSend.getSuccessPage(player);
+                    return true;
+                }
+                ManagerLevelSend.getLoadPage(player);
+                //成功界面
+                return true;
+            }
+            if (response instanceof FormResponseSimple){
+                String level = ((FormResponseSimple) response).getClickedButton().getText();
+                ManagerLevelSend.sendLevelInfo(player,level);
+            }
+            return true;
+        }
+        return false;
+    }
     private boolean adminSetPlayerDataInfo(FormResponse response, Player player){
         if (adminData.containsKey(player.getName())) {
             if (response instanceof FormResponseSimple) {
@@ -595,6 +640,89 @@ public class EventListener implements Listener {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 dataBase.lastDate = df.format(new Date());
                 dataBase.save();
+            }
+        }
+    }
+
+    @EventHandler
+    public void playerLevelChange(EntityLevelChangeEvent event){
+        Entity player = event.getEntity();
+        if (player instanceof Player){
+            Level level = event.getTarget();
+            LevelData levelData = LevelData.levelList.get(level.getFolderName());
+            if (!levelData.isNotAdminCanTP() && !((Player) player).isOp()){
+                event.setCancelled();
+                ((Player) player).sendMessage(TextFormat.RED+"你无法加入这个世界，属于权限保护世界");
+            }
+            if (levelData.isCanFly()){
+                ((Player) player).getAdventureSettings().set(AdventureSettings.Type.ALLOW_FLIGHT, true);
+                ((Player) player).getAdventureSettings().update();
+                ((Player) player).sendMessage(TextFormat.AQUA+"这个世界允许飞行o...");
+            }
+        }
+    }
+    @EventHandler
+    public void playerModeChange(PlayerGameModeChangeEvent event){
+        LevelData data = LevelData.levelList.get(event.getPlayer().level.getFolderName());
+        if (!data.isCanChangeMode()){
+            event.setCancelled();
+            event.getPlayer().sendMessage(TextFormat.RED+"这个世界禁止改变模式");
+        }
+    }
+
+    @EventHandler
+    public void playerBreakBlock(BlockBreakEvent event){
+        LevelData data = LevelData.levelList.get(event.getPlayer().level.getFolderName());
+        if (!data.isCanBreak()){
+            event.setCancelled();
+        }
+    }
+
+
+
+    @EventHandler
+    public void playerInteract(PlayerInteractEvent event){
+        LevelData data = LevelData.levelList.get(event.getPlayer().level.getFolderName());
+        if (!data.isCanBreak()){
+            event.setCancelled();
+        }
+    }
+    @EventHandler
+    public void playerPlace(BlockPlaceEvent event){
+        LevelData data = LevelData.levelList.get(event.getPlayer().level.getFolderName());
+        if (!data.isCanPlace()){
+            event.setCancelled();
+        }
+    }
+
+    @EventHandler
+    public void PlayerDamage(EntityDamageEvent event){
+        Entity player = event.getEntity();
+        LevelData data = LevelData.levelList.get(player.level.getFolderName());
+        if (player instanceof Player){
+            //高处坠落伤害
+            if ( event.getCause()== EntityDamageEvent.DamageCause.FALL){
+                if (!data.isCanPhysicalDamage()){
+                    event.setCancelled();
+                }
+            }
+        }
+        if (event instanceof EntityDamageByEntityEvent){
+            Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
+            if (damager instanceof Player){
+                if (player instanceof Player){
+                    if (!data.isCanPVP()){
+                        event.setCancelled();
+                        ((Player) damager).sendMessage(TextFormat.RED+"这个世界禁止PVP");
+                    }
+                }else if (!data.isCanPVE()){
+                    event.setCancelled();
+                    ((Player) damager).sendMessage(TextFormat.RED+"这个世界禁止PVE");
+                }
+            }else if (player instanceof Player){
+                if (!data.isCanPVE()){
+                    event.setCancelled();
+                }
             }
         }
     }

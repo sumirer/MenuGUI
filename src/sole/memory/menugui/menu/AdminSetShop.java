@@ -58,10 +58,19 @@ public class AdminSetShop {
         buttonInfo2.text = "设置玩家数据";
         buttonInfo2.haveImg = true;
         buttonInfo2.imgPath = MenuGUI.getInstance().getDataFolder()+"/imgPath/set.png";
+        ButtonInfo buttonInfo3 = new ButtonInfo();
+        buttonInfo3.text = "设置地图";
+        buttonInfo3.haveImg = false;
+        ButtonInfo buttonInfo4 = new ButtonInfo();
+        buttonInfo4.text = "重载地图";
+        buttonInfo4.haveImg = false;
+
         HashMap<Integer, ButtonInfo> map = new HashMap<>();
         map.put(0, buttonInfo);
         map.put(1, buttonInfo1);
         map.put(2,buttonInfo2);
+        map.put(3,buttonInfo3);
+        map.put(4,buttonInfo4);
         Simple simple = new Simple();
         simple.text = TextFormat.BOLD+"Menu";
         simple.info = "点击进入功能区";

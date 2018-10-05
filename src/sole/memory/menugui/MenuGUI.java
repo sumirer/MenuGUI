@@ -13,6 +13,7 @@ import sole.memory.menugui.database.ConfigDataBase;
 import sole.memory.menugui.email.Email;
 import sole.memory.menugui.lang.Lang;
 import sole.memory.menugui.listener.EventListener;
+import sole.memory.menugui.menu.data.LevelData;
 import sole.memory.menugui.windows.WindowsType;
 
 import java.io.File;
@@ -74,6 +75,7 @@ public class MenuGUI extends PluginBase implements MenuAPI{
         ConfigDataBase.initData();
         registerPermission();
         registerCommand();
+        LevelData.init();
         this.getLogger().info("this plugin is load.....");
     }
 
