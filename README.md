@@ -23,6 +23,9 @@ you can use this plugin in server..<br>
 IP: **jamworld.cn**    
 Port: **19132**
 
+DownLoad
+----------
+<a href="https://github.com/SayHellos/MenuGUI/blob/master/MenuGUI.jar">DownLoad Jar File</a>
 
 How to use
 ----------
