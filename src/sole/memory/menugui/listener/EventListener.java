@@ -5,7 +5,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.entity.Entity;
-import cn.nukkit.entity.EntityDamageable;
+
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
@@ -32,8 +32,7 @@ import sole.memory.menugui.menu.data.*;
 import sole.memory.menugui.menu.item.ItemName;
 import sole.memory.menugui.utils.StringUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.HashMap;
 
 /**
@@ -61,6 +60,9 @@ public class EventListener implements Listener {
 
     private HashMap<String,Boolean> setLevel = new HashMap<>();
 
+    public static HashMap<String, Boolean> world = new HashMap<>();
+
+
 
     private void cleanPlayerData(Player player){
         if (EventListener.setStep.containsKey(player.getName())) {
@@ -83,6 +85,9 @@ public class EventListener implements Listener {
         }
         if (setLevel.containsKey(player.getName())){
             setLevel.remove(player.getName());
+        }
+        if (world.containsKey(player.getName())){
+            world.remove(player.getName());
         }
     }
 
@@ -111,8 +116,13 @@ public class EventListener implements Listener {
                 cleanPlayerData(player);
             }
         }
+
         if (response instanceof FormResponseSimple) {
             String name = ((FormResponseSimple) response).getClickedButton().getText();
+            if (world.containsKey(player.getName())){
+                player.teleport(Server.getInstance().getLevelByName(name).getSpawnLocation());
+                return;
+            }
             if (isSetPlayer.containsKey(player.getName()) && !setStep.containsKey(player.getName()) && !adminData.containsKey(player.getName()) &&!setLevel.containsKey(player.getName())) {
                 AdminSetShop setShop = new AdminSetShop();
                 if (Lang.translate("gui-button-set-shop").equals(name)) {
@@ -606,7 +616,7 @@ public class EventListener implements Listener {
         }
     }
 
-    @EventHandler
+   /* @EventHandler
     public void playerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         PlayerDataBase dataBase = new PlayerDataBase(player.getName().toLowerCase());
@@ -642,7 +652,7 @@ public class EventListener implements Listener {
                 dataBase.save();
             }
         }
-    }
+    }*/
 
     @EventHandler
     public void playerLevelChange(EntityLevelChangeEvent event){
@@ -658,6 +668,10 @@ public class EventListener implements Listener {
                 ((Player) player).getAdventureSettings().set(AdventureSettings.Type.ALLOW_FLIGHT, true);
                 ((Player) player).getAdventureSettings().update();
                 ((Player) player).sendMessage(TextFormat.AQUA+"这个世界允许飞行o...");
+            }else {
+
+                ((Player) player).getAdventureSettings().set(AdventureSettings.Type.ALLOW_FLIGHT, false);
+                ((Player) player).getAdventureSettings().update();
             }
         }
     }

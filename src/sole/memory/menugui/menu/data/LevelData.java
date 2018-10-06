@@ -26,6 +26,7 @@ public class LevelData {
         for (Object info:config.getAll().values()) {
             LinkedHashMap ld = (LinkedHashMap) info;
             LevelData data = initLevelData(ld);
+            if (data == null) continue;
             levelList.put(data.levelName,data);
         }
     }
@@ -51,8 +52,9 @@ public class LevelData {
                 Server.getInstance().generateLevel(data.levelName);
                 Server.getInstance().getLogger().info("Level: "+ TextFormat.AQUA +data.levelName+TextFormat.RESET+" Not exist, generate a New Map...");
             }
+            return data;
         }
-        return data;
+        return null;
     }
 
     public static HashMap<String, Boolean> loadNewMap(){

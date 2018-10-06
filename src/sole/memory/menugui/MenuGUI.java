@@ -8,6 +8,7 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.ConfigSection;
 import sole.memory.menugui.command.AdminAddItemCommand;
+import sole.memory.menugui.command.LevelTeleportCommand;
 import sole.memory.menugui.command.PlayerOpenShopCommand;
 import sole.memory.menugui.database.ConfigDataBase;
 import sole.memory.menugui.email.Email;
@@ -86,8 +87,9 @@ public class MenuGUI extends PluginBase implements MenuAPI{
 
 
     private void registerCommand(){
-        Server.getInstance().getCommandMap().register("MenuGUI",new AdminAddItemCommand("gshop"));
-        Server.getInstance().getCommandMap().register("MenuGUI",new PlayerOpenShopCommand("gui"));
+        Server.getInstance().getCommandMap().register("MenuGUI",new AdminAddItemCommand("gui"));
+        Server.getInstance().getCommandMap().register("MenuGUI",new PlayerOpenShopCommand("menu"));
+        Server.getInstance().getCommandMap().register("MenuGUI",new LevelTeleportCommand("w"));
     }
 
     @Override
