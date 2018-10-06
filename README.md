@@ -47,9 +47,12 @@ Command
 
   you can use this pluin's command.
   
-  `/gshop`   Permission: OP    use: open admin Edit page.
+  `/gui`   Permission: OP    use: open admin Edit page.
 
-  `/gui `    Permission: true  use: open player use menuGUI page
+  `/menu `    Permission: true  use: open player use menuGUI page
+  
+  `/w `    Permission: true  use:teleport level by name
+  
 
 
 Bug Report
