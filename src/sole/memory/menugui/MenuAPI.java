@@ -13,13 +13,5 @@ public interface  MenuAPI {
         return MenuGUI.getInstance();
     }
 
-   boolean isLogin(Player player);
 
-   void setLogin(Player player);
-
-   void sendGuiMessageToPlayer(Player player, WindowsType windowsType, String msg);
-
-   void sendEmailToPlayer(String account, String user, String title, String msg);
-
-   void sendEmailCheckToPlayer(String player, String verify, String type, String mailAccount);
 }

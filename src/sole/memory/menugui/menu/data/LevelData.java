@@ -268,8 +268,6 @@ public class LevelData {
 
     public boolean update(HashMap map){
 
-        Server.getInstance().getLogger().info(map.toString());
-
         isLoad = (boolean)map.get(1);
         canBreak = (boolean)map.get(2);
         canPlace = (boolean)map.get(3);
