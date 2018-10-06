@@ -121,6 +121,7 @@ public class EventListener implements Listener {
             String name = ((FormResponseSimple) response).getClickedButton().getText();
             if (world.containsKey(player.getName())){
                 player.teleport(Server.getInstance().getLevelByName(name).getSpawnLocation());
+                world.remove(player.getName());
                 return;
             }
             if (isSetPlayer.containsKey(player.getName()) && !setStep.containsKey(player.getName()) && !adminData.containsKey(player.getName()) &&!setLevel.containsKey(player.getName())) {
