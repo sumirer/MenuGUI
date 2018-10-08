@@ -23,6 +23,7 @@ import cn.nukkit.lang.TranslationContainer;
 import cn.nukkit.level.Level;
 import cn.nukkit.utils.TextFormat;
 import money.Money;
+import sole.memory.SimpleLand;
 import sole.memory.menugui.MenuGUI;
 import sole.memory.menugui.database.ConfigDataBase;
 import sole.memory.menugui.database.PlayerDataBase;
@@ -110,6 +111,7 @@ public class EventListener implements Listener {
                 if (isSetPlayer.containsKey(player.getName()) || adminData.containsKey(player.getName())) {
                     player.showFormWindow(AdminSetShop.getMainPage());
                     cleanPlayerData(player);
+                    isSetPlayer.put(player.getName(),true);
                     return;
                 }
                 player.showFormWindow(PlayerBuyShop.getMainPage());
@@ -687,7 +689,13 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void playerBreakBlock(BlockBreakEvent event){
-        LevelData data = LevelData.levelList.get(event.getPlayer().level.getFolderName());
+        String name = event.getPlayer().level.getFolderName();
+        if (MenuGUI.getInstance().haveSimpleLand()){
+            if (SimpleLand.getInstance().isLandWord(name)){
+                return;
+            }
+        }
+        LevelData data = LevelData.levelList.get(name);
         if (!data.isCanBreak()){
             event.setCancelled();
         }
@@ -697,14 +705,26 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void playerInteract(PlayerInteractEvent event){
-        LevelData data = LevelData.levelList.get(event.getPlayer().level.getFolderName());
+        String name = event.getPlayer().level.getFolderName();
+        if (MenuGUI.getInstance().haveSimpleLand()){
+            if (SimpleLand.getInstance().isLandWord(name)){
+                return;
+            }
+        }
+        LevelData data = LevelData.levelList.get(name);
         if (!data.isCanBreak()){
             event.setCancelled();
         }
     }
     @EventHandler
     public void playerPlace(BlockPlaceEvent event){
-        LevelData data = LevelData.levelList.get(event.getPlayer().level.getFolderName());
+        String name = event.getPlayer().level.getFolderName();
+        if (MenuGUI.getInstance().haveSimpleLand()){
+            if (SimpleLand.getInstance().isLandWord(name)){
+                return;
+            }
+        }
+        LevelData data = LevelData.levelList.get(name);
         if (!data.isCanPlace()){
             event.setCancelled();
         }

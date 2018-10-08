@@ -196,7 +196,7 @@ public class LevelData {
         //判断是否有地图可以传送
         LevelData levelData = null;
         for (LevelData lv:levelList.values()) {
-            if (lv.isLoad && lv.level!=null && !lv.levelName.equals(level.getFolderName()) && lv.isNotAdminCanTP()){
+            if (lv.isLoad && !lv.levelName.equals(level.getFolderName()) && lv.isNotAdminCanTP()){
               levelData = lv;
               break;
             }

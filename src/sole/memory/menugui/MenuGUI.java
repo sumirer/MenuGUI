@@ -4,6 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.form.window.FormWindowModal;
 import cn.nukkit.permission.Permission;
+import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.ConfigSection;
@@ -38,7 +39,7 @@ public class MenuGUI extends PluginBase implements MenuAPI{
     public static MenuGUI getInstance(){
         return MenuGUI.plugin;
     }
-
+    private boolean haveSimpleLand = false;
     @Override
     public void onEnable() {
         MenuGUI.plugin = this;
@@ -67,9 +68,19 @@ public class MenuGUI extends PluginBase implements MenuAPI{
         registerPermission();
         registerCommand();
         LevelData.init();
+        checkSimpleLand();
         this.getLogger().info("this plugin is load.....");
     }
 
+    public boolean haveSimpleLand(){
+        return  haveSimpleLand;
+    }
+    private void checkSimpleLand(){
+            Plugin simpleLand = Server.getInstance().getPluginManager().getPlugin("SimpleLand");
+        if (simpleLand!= null && simpleLand.isEnabled()){
+            haveSimpleLand = true;
+        }
+    }
     private void registerPermission(){
         Server.getInstance().getPluginManager().addPermission(new Permission("sole.memory.gui.admin","op"));
         Server.getInstance().getPluginManager().addPermission(new Permission("sole.memory.gui.player","true"));
